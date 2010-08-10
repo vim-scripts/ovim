@@ -1,0 +1,51 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=3194
+
+ovim is a zsh script that makes it convenient to open files
+or execute "ex" commands in gvim from a Unix terminal.
+
+Examples:
+
+Open all c files and jump to the first "main" string:
+    ovim *.c +/main
+
+Open all cpp files that contain the "sstream" string:
+    grep -l sstream *.cpp | xargs ovim
+or
+    ovim -c vimgrep sstream *.cpp
+
+Open the README.txt file in a new window:
+    ovim -c split README.txt
+
+Make gvim jump to a tag with respect to the "tags" file
+in the shell directory (try this in /usr/share/vim/vim72/doc):
+    ovim -c tag /grail
+
+Change to the current shell directory in gvim:
+    ovim -c cd .
+
+Open all txt files in the gvim server MYGVIM.  The server name is
+capitalized thus "-s mygvim" is the same as "-s MYGVIM":
+    ovim -s mygvim *.txt
+
+Make gvim a bit animated:
+    ovim -c "winpos "{1..400}" 1|"
+
+Feautures:
+
+* speed "gvim --remote f1 f2 f3 ... f50" could cause about 10 second screen
+updates in some older gvim versions.  With ovim gvim sources a temporary
+script file and avoids such slow downs.
+
+* intelligent server selection.  ovim attempts to reuse
+the last server used, if it is not running, it will select the last live
+gvim server or finally would start new gvim process.  The server
+selection can be forced with a "-s MYSERVER" option.  Note that this
+server choice is permanent, i.e., subsequent calls of ovim would try
+to use the same server.
+
+* "ex" commands are executed in the current shell directory
+"ovim -c split filename" works even if terminal and the gvim server are
+in different directories.  The gvim directory is changed to the terminal
+directory just before the ex commands execution and then restored back.
+This is done in such way that "ovim -c cd somewhere" works as expected.
+
